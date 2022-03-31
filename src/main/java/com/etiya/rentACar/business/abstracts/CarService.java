@@ -15,13 +15,15 @@ public interface CarService {
     
     CarDto getById(int id);
 
+
+
 	DataResult<List<ListCarDto>> getAll();
 	DataResult<List<ListCarDto>> getAllByModelYear(int modelYear);
 	DataResult<List<ListCarDto>> getAllPaged(int pageNo, int pageSize); // hangi sayfa ve bir sayfada kaç tane olsun .. sayfada kaç tane olsuna göre yapılandırır.
 	DataResult<List<ListCarDto>> getAllSorted(String option, String fields); // sorted sıralı demektir.
 	//List<ListCarDto> getByCarId(int id);
 	
-	
+	DataResult<List<ListCarDto>> getByCityId(int cityId);
 	
 	
 	Result add(CreateCarRequest createCarRequest);

@@ -4,12 +4,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.etiya.rentACar.business.constants.BusinessMessages;
+import com.etiya.rentACar.business.responses.cityResponses.ListCityDto;
 import com.etiya.rentACar.business.responses.colorResponses.ListColorDto;
 import com.etiya.rentACar.core.utilities.results.DataResult;
 import com.etiya.rentACar.core.utilities.results.Result;
 import com.etiya.rentACar.core.utilities.results.SuccessDataResult;
 import com.etiya.rentACar.core.utilities.results.SuccessResult;
+import com.etiya.rentACar.dataAccess.abstracts.CityDao;
 import com.etiya.rentACar.entities.CarStates;
+import com.etiya.rentACar.entities.City;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -31,10 +34,13 @@ public class CarManager implements CarService {
 
 	private CarDao carDao;
 	private ModelMapperService modelMapperService;
+	private CityDao cityDao;
 
-	public CarManager(CarDao carDao, ModelMapperService modelMapperService) {
+	public CarManager(CarDao carDao, ModelMapperService modelMapperService,CityDao cityDao) {
 		this.carDao = carDao;
 		this.modelMapperService = modelMapperService;
+		this.cityDao = cityDao;
+
 	}
 
 	@Override
@@ -48,21 +54,17 @@ public class CarManager implements CarService {
 
 		return new SuccessResult("CAR_ADDED");
 	}
-//if (createCarRequest.getDailyPrice() < 50)
-	//	throw new BusinessException("Fiyatı 50 Tl'den düşük araba kiralanamaz !");
-	//}
 
 	@Override
 	public Result update(UpdateCarRequest updateCarRequest) {
 
-		Car car = this.modelMapperService.forRequest()
-				.map(updateCarRequest, Car.class);
+		Car car = this.modelMapperService.forRequest().map(updateCarRequest, Car.class);
 
 		this.carDao.save(car);
+
 		return new SuccessResult("CAR_UPDATED");
-
-
 	}
+
 
 	@Override
 	public Result delete(DeleteCarRequest deleteCarRequest) {
@@ -134,8 +136,16 @@ public class CarManager implements CarService {
 
 		return new SuccessDataResult<List<ListCarDto>>(response);
 	}
-//uçağın yükselmesi asc yani a'dan z ye
-	// uçağın alçalması desc yani z' den a ya
+
+	@Override
+	public DataResult<List<ListCarDto>> getByCityId(int cityId) {
+		List<Car> cars = this.carDao.getByCityId(cityId);
+		List<ListCarDto> response = cars.stream()
+
+				.map(car -> this.modelMapperService.forDto().map(car, ListCarDto.class)).collect(Collectors.toList());
+
+		return new SuccessDataResult<List<ListCarDto>>(response);
+	}
 
 	@Override
 	public CarDto getById(int id) {
@@ -146,6 +156,7 @@ public class CarManager implements CarService {
 
 		return response;
 	}
+
 
 	public void checkIfCarAvaible(int id) {
 		Car car = carDao.getById(id);

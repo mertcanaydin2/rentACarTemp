@@ -13,13 +13,17 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class UpdateCarRentalRequest {
     @JsonIgnore
-    private int rentalId;
+    private int id;
 
-    @NotNull
+
     private int customerId;
 
-    @NotNull
+
     private LocalDate rentDate;
 
+
     private LocalDate returnDate;
+
+    private int carId;
+
 }

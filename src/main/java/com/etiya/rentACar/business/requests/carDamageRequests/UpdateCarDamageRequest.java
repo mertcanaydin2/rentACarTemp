@@ -10,13 +10,13 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
 
-@Data // get ve set
-@AllArgsConstructor //parametreli constructor
-@NoArgsConstructor // parametresiz constructor
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UpdateCarDamageRequest {
 
 	
-	private int damageId;
+	private int id;
 
 	@NotNull
 	private int carId;

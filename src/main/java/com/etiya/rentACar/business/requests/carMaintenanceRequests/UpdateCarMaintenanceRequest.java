@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 public class UpdateCarMaintenanceRequest {
 
 	
-	private int maintenanceId;
+	private int id;
 
     @NotNull
     private LocalDate dateAdded;

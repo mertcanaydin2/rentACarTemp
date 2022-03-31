@@ -26,7 +26,7 @@ public class RentACarApplication {
 
 	}
 
-	@Bean //İçinde sınıfların referanslarını tutar. Manuel olarak instance üretmemiz gereken sınıfları burada newleriz 
+	@Bean
 
 	public ModelMapper getModelMapper() {
 		return new ModelMapper();

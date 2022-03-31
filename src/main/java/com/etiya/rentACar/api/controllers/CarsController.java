@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.etiya.rentACar.business.abstracts.CityService;
 import com.etiya.rentACar.core.utilities.results.DataResult;
 import com.etiya.rentACar.core.utilities.results.Result;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,23 +24,25 @@ import com.etiya.rentACar.business.responses.carResponses.ListCarDto;
 @RequestMapping("/api/cars")
 public class CarsController {
 	private CarService carService;
+	private CityService cityService;
 
-	public CarsController(CarService carService) {
+	public CarsController(CarService carService, CityService cityService) {
 		this.carService = carService;
+		this.cityService = cityService;
 	}
 
-	@PostMapping("/add") //valid dediğimizde crreate de yazdığımız anatosyonların devreye girmesini sağlar
+	@PostMapping("/add")
 	public Result add(@RequestBody @Valid CreateCarRequest createCarRequest) {
 
 		return this.carService.add(createCarRequest);
 	}
 	@PostMapping("/update")
-    public Result update(@RequestBody @Valid  UpdateCarRequest updateCarRequest) {
+    public Result update(@RequestBody  UpdateCarRequest updateCarRequest) {
 
 		return  this.carService.update(updateCarRequest);
     }
 	@PostMapping("/delete")
-    public Result delete(@RequestBody @Valid DeleteCarRequest deleteCarRequest) {
+    public Result delete(@RequestBody DeleteCarRequest deleteCarRequest) {
 
 		return this.carService.delete(deleteCarRequest);
 	}
@@ -54,18 +57,22 @@ public class CarsController {
 
 		return this.carService.getAllByModelYear(modelYear);
 	}
-	@GetMapping("/getallpaged")		//hangi sayfa ve bir sayfada kaç tane olsun .. sayfada kaç tane olsuna göre yapılandırır.
+	@GetMapping("/getallpaged")
 	public DataResult<List<ListCarDto>> getAllPaged(int pageNo,int pageSize) {
 		
 		return this.carService.getAllPaged(pageNo, pageSize);
 	}
 	
-	@GetMapping("/getallsorted")//sorted sıralı demek
+	@GetMapping("/getallsorted")
 	 public  DataResult<List<ListCarDto>> getAllSorted(String option,String fields){
 		
 		return this.carService.getAllSorted(option,fields);
 	}
-	
+
+	@GetMapping("/getbycityid")
+	public DataResult<List<ListCarDto>> getAllByCityName(@RequestParam("cityId") int cityId){
+		return this.carService.getByCityId(cityId);
+	}
 		
 	}
 	

@@ -22,7 +22,7 @@ public class CustomersController {
         this.customerService = customerService;
     }
 
-    @PostMapping("/add") //valid dediğimizde crreate de yazdığımız anatosyonların devreye girmesini sağlar
+    @PostMapping("/add")
     public Result add(@RequestBody @Valid CreateCustomerRequest createCustomerRequest) {
 
         return this.customerService.add(createCustomerRequest);

@@ -1,6 +1,7 @@
 package com.etiya.rentACar.business.requests.carRequests;
 
 
+import com.etiya.rentACar.entities.CarStates;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,10 +16,10 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class UpdateCarRequest {
 
-	
-	private int carId;
+	@NotNull
+	private int id;
 
-	@NotNull //burayı bana sağlamak durumundasın
+	@NotNull
 	@Min(1)
 	@Max(10000)
 	private double dailyPrice;
@@ -37,6 +38,8 @@ public class UpdateCarRequest {
 	@NotNull
 	private int brandId;
 	
-    //private CarStates statesName;
+    private CarStates carState;
+
+	private int cityId;
 
 }

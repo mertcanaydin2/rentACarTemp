@@ -37,6 +37,14 @@ public class BusinessMessages {
 
 	public class CustomerMessage {
 		public static final String CUSTOMER = " Müşteri Kaydı Başarılı!";
+		public static final String CUSTOMER_UPDATED = "Müşteri Güncellendi!";
+		public static final String CUSTOMER_DELETED = "Müşteri Silindi!";
 
+	}
+
+	public class CityMessage{
+		public static final String CITY_ADDED = "Şehir Kaydı Başarılı!";
+		public static final String CITY_UPDATED = "Şehir Güncellendi!";
+		public static final String CITY_DELETED = "Şehir Silindi!";
 	}
 }
