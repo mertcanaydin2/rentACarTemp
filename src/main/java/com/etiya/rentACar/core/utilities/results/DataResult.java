@@ -11,7 +11,7 @@ public class DataResult<T> extends Result {
 
 	public DataResult(T data, boolean success, String message) {
 		super(success, message);
-		this.data = data; // kullanıcının verdiği data yı dönder demek
+		this.data = data;
 
 	}
 
