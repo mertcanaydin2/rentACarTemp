@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateCarRentalRequest {
-    @JsonIgnore
+
     private int id;
 
 
@@ -21,7 +21,7 @@ public class UpdateCarRentalRequest {
 
     private LocalDate rentDate;
 
-
+    @NotNull
     private LocalDate returnDate;
 
     private int carId;

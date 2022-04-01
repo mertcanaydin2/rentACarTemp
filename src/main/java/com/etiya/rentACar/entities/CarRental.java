@@ -34,4 +34,17 @@ public class CarRental {
     @ManyToOne
     @JoinColumn(name = "customerId")
     private Customer customer;
+
+    @Column(name = "rentCity")
+    private int rentCity;
+
+    @Column(name = "returnCity")
+    private int returnCity;
+
+    @Column(name = "totalPrice")
+    private double totalPrice;
+
+    @ManyToOne
+    @JoinColumn(name = "additionalService_id")
+    private AdditionalService additionalService;
 }

@@ -28,6 +28,10 @@ public class CarDto {
 
 	private String cityName;
 
+	private int cityId;
+
+	private double dailyPrice;
+
 
 
 }

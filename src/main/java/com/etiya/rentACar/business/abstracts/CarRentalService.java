@@ -14,8 +14,8 @@ public interface CarRentalService {
 
 
     DataResult<List<ListCarRentalDto>> getAll();
-    DataResult<List<ListCarRentalDto>> getAllPaged(int pageNo, int pageSize); // hangi sayfa ve bir sayfada kaç tane olsun .. sayfada kaç tane olsuna göre yapılandırır.
-    DataResult<List<ListCarRentalDto>> getAllSorted(String option, String fields); // sorted sıralı demektir.
+    DataResult<List<ListCarRentalDto>> getAllPaged(int pageNo, int pageSize);
+    DataResult<List<ListCarRentalDto>> getAllSorted(String option, String fields);
     DataResult<List<ListCarRentalDto>> getAllByCarId(int carId);
 
 

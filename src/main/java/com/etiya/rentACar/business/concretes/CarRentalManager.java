@@ -1,11 +1,15 @@
 package com.etiya.rentACar.business.concretes;
 
+import com.etiya.rentACar.business.abstracts.AdditionalServiceService;
 import com.etiya.rentACar.business.abstracts.CarRentalService;
 import com.etiya.rentACar.business.abstracts.CarService;
 import com.etiya.rentACar.business.requests.carRentalRequests.CreateCarRentalRequest;
 import com.etiya.rentACar.business.requests.carRentalRequests.DeleteCarRentalRequest;
 import com.etiya.rentACar.business.requests.carRentalRequests.UpdateCarRentalRequest;
+import com.etiya.rentACar.business.requests.carRequests.UpdateCarStatusRequest;
+import com.etiya.rentACar.business.responses.additionalServiceResponses.ListAdditionalServiceDto;
 import com.etiya.rentACar.business.responses.carRentalResponses.ListCarRentalDto;
+import com.etiya.rentACar.business.responses.carResponses.CarDto;
 import com.etiya.rentACar.core.utilities.mapping.ModelMapperService;
 import com.etiya.rentACar.core.utilities.results.DataResult;
 import com.etiya.rentACar.core.utilities.results.Result;
@@ -13,11 +17,13 @@ import com.etiya.rentACar.core.utilities.results.SuccessDataResult;
 import com.etiya.rentACar.core.utilities.results.SuccessResult;
 import com.etiya.rentACar.dataAccess.abstracts.CarRentalDao;
 import com.etiya.rentACar.entities.CarRental;
+import com.etiya.rentACar.entities.CarStates;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.Period;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,12 +33,15 @@ public class CarRentalManager implements CarRentalService {
     private CarRentalDao carRentalDao;
     private ModelMapperService modelMapperService;
     private CarService carService;
+    private AdditionalServiceService additionalServiceService;
 
 
-    public CarRentalManager(CarRentalDao carRentalDao, ModelMapperService modelMapperService, CarService carService) {
+    public CarRentalManager(CarRentalDao carRentalDao, ModelMapperService modelMapperService, CarService carService, AdditionalServiceService additionalServiceService) {
         this.carRentalDao = carRentalDao;
         this.modelMapperService = modelMapperService;
         this.carService = carService;
+        this.additionalServiceService = additionalServiceService;
+
     }
 
     @Override
@@ -41,13 +50,17 @@ public class CarRentalManager implements CarRentalService {
         carService.checkIfCarAvaible(createCarRentalRequest.getCarId());
 
 
-        CarRental carRental = this.modelMapperService.forRequest()
-
-                .map(createCarRentalRequest, CarRental.class);
+        CarRental carRental = this.modelMapperService.forRequest().map(createCarRentalRequest, CarRental.class);
 
         carRental.setReturnDate(null);
 
         this.carRentalDao.save(carRental);
+
+        UpdateCarStatusRequest updateCarStatusRequest = new UpdateCarStatusRequest();
+        updateCarStatusRequest.setId(createCarRentalRequest.getCarId());
+        updateCarStatusRequest.setStates(CarStates.Rented);
+
+        //updateCarStatus tanımla. (CarService)
 
         return new SuccessResult("CAR_ADDED_TO_RENTAL");
     }
@@ -130,5 +143,40 @@ public class CarRentalManager implements CarRentalService {
         return new SuccessDataResult<List<ListCarRentalDto>>(response);
     }
 
+    public double lastTotalPrice(CreateCarRentalRequest createCarRentalRequest){
+        CarDto carDto = this.carService.getById(createCarRentalRequest.getCarId());
+        long carLateness = lateness(createCarRentalRequest);
+        double rentTotalPrice = carLateness * carDto.getDailyPrice();
+        double additionalPropertyTotalPrice = carLateness * additionalPropertyTotal(createCarRentalRequest);
+        double checkCityDiff = checkCityDifference(createCarRentalRequest);
+        return (rentTotalPrice + additionalPropertyTotalPrice + checkCityDiff);
+    }
+
+    public long lateness(CreateCarRentalRequest createCarRentalRequest){
+
+        Period day = Period.between(createCarRentalRequest.getRentDate(), createCarRentalRequest.getReturnDate());
+        int carLateness = day.getDays();
+
+        return carLateness;
+    }
+
+    public double checkCityDifference(CreateCarRentalRequest createCarRentalRequest){
+        if(createCarRentalRequest.getRentCity() != createCarRentalRequest.getReturnCity()){
+            //Burayı yap.
+            return 750;
+        }
+        return 0;
+    }
+
+
+    public double additionalPropertyTotal(CreateCarRentalRequest createCarRentalRequest) {
+       /* double totalPrice = 0;
+        List<ListAdditionalServiceDto> additionalServiceDtoList = this.additionalServiceService.getById(createCarRentalRequest.getAdditionalServiceId());
+        for (ListAdditionalServiceDto item : additionalServiceDtoList) {
+            totalPrice += item.getDailyPrice();
+        }
+        return totalPrice;*/
+        return 100;
+    }
 
 }
