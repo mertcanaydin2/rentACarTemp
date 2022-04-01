@@ -18,7 +18,6 @@ import com.etiya.rentACar.core.utilities.results.Result;
 
 import javax.validation.Valid;
 
-//dış dünya ile iletişim kurar 
 @RestController
 @RequestMapping("/api/brands")
 public class BrandsController {
@@ -30,7 +29,6 @@ public class BrandsController {
 		this.brandService = brandService;
 	}
 
-	// veri tabanı nesnesini controllera taşımak yasak
 	@PostMapping("/add")
 	public Result add(@RequestBody @Valid CreateBrandRequest createBrandRequest) {
 
@@ -54,4 +52,3 @@ public class BrandsController {
 		return this.brandService.getAll();
 	}
 }
-//response-request pattern
