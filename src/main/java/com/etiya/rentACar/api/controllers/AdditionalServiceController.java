@@ -33,7 +33,7 @@ public class AdditionalServiceController {
         return this.additionalServiceService.update(updateAdditionalServiceRequest);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/delete")
     public Result delete(@RequestBody @Valid DeleteAdditionalServiceRequest deleteAdditionalServiceRequest){
         return this.additionalServiceService.delete(deleteAdditionalServiceRequest);
     }
