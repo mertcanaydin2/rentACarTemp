@@ -58,4 +58,6 @@ public class CarRentalsController {
 
         return this.carRentalService.getAllByCarId(id);
     }
+
+    // Manager'daki kiralama methodunu tanımla ve buraya ekle.
 }

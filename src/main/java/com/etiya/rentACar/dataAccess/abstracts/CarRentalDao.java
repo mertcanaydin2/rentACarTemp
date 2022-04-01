@@ -14,7 +14,6 @@ import java.util.List;
 
 @Repository
 public interface CarRentalDao extends JpaRepository<CarRental , Integer> {
-    //List<CarRental> getByCarId(int id);
     List<CarRental> getAllByCarId(int carId);
-    //List<CarRental> getByRentDateReturnDate(LocalDate rentDate, LocalDate returnDate);
+    List<CarRental> getById(int id);
 }

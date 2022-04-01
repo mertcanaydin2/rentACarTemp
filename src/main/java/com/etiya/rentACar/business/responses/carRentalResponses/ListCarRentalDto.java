@@ -22,4 +22,10 @@ public class ListCarRentalDto {
     private LocalDate rentDate;
 
     private LocalDate returnDate;
+
+    private String rentCityName;
+
+    private String returnCityName;
+
+    private double totalPrice;
 }

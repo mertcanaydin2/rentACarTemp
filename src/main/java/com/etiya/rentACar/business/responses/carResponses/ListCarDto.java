@@ -28,5 +28,8 @@ public class ListCarDto {
 
 	private String cityName;
 
+	private String cityId;
+
+
 
 }

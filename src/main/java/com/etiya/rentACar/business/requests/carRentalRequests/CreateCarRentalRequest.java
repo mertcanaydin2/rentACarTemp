@@ -19,7 +19,7 @@ import java.time.LocalDate;
 public class CreateCarRentalRequest {
 
     @JsonIgnore
-    private int rentalId;
+    private int id;
 
     @NotNull
     private int customerId;
@@ -29,6 +29,15 @@ public class CreateCarRentalRequest {
 
     private LocalDate returnDate;
 
+    @NotNull
     private int carId;
+
+    @NotNull
+    private int rentCity;
+
+    private int returnCity;
+
+    private int additionalServiceId;
+
 
 }
